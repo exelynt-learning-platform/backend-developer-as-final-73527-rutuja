@@ -1,0 +1,14 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+.idea/
+.vscode/
+*.iml
+
+.env
+application-local.properties
+
+.DS_Store
+Thumbs.db

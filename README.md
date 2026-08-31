@@ -1,76 +1,183 @@
-# backend-developer-as-final-73527-rutuja
-Final Project Assignment - This repository contains the complete final project code and documentation.
-Resource Booking System
+# Resource Booking System
 
-A secure RESTful Resource Booking System developed using Java 17, Spring Boot, Spring Security, JWT, Spring Data JPA, Hibernate, and MySQL.
+A secure RESTful Resource Booking System built using **Java 17, Spring Boot, Spring Security, JWT, Spring Data JPA, Hibernate, and MySQL**.
 
-The application allows authenticated users to view available resources and create and manage their reservations. Administrators have complete access to manage resources and reservations.
+The application allows users to view available resources and create/manage their own reservations. Administrators have full access to manage resources and reservations.
 
-Features
-JWT-based user authentication
-Secure BCrypt password hashing
-Role-Based Access Control (RBAC)
-ADMIN and USER roles
-Resource management
-Reservation management
-Reservation ownership protection
-Reservation status management
-Price-based filtering
-Status-based filtering
-Pagination
-Sorting
-Input validation
-Global exception handling
-Booking conflict detection
-MySQL database integration
-Swagger/OpenAPI documentation
-Seed users for testing
-Technology Stack
-Java: 17
-Framework: Spring Boot
-Security: Spring Security + JWT
-Database: MySQL
-ORM: Spring Data JPA / Hibernate
-Build Tool: Maven
-API Documentation: Swagger/OpenAPI
-Testing: JUnit 5 / Spring Boot Test
-Project Structure
-backend-developer-as-final-73527-rutuja
-│
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── com.rutuja.booking
-│   │   │       ├── config
-│   │   │       ├── controller
-│   │   │       ├── dto
-│   │   │       ├── entity
-│   │   │       ├── exception
-│   │   │       ├── repository
-│   │   │       ├── security
-│   │   │       └── service
-│   │   │
-│   │   └── resources
-│   │       └── application.properties
-│   │
-│   └── test
-│       └── java
-│
-├── postman
-│   └── Resource-Booking-System.postman_collection.json
-│
-├── database.sql
-├── pom.xml
-├── README.md
-└── .gitignore
-Database Design
+---
+
+## 📌 Project Overview
+
+The Resource Booking System provides REST APIs for managing bookable resources such as:
+
+* Conference rooms
+* Vehicles
+* Equipment
+* Meeting rooms
+
+The application implements JWT-based authentication and role-based authorization with two roles:
+
+* **ADMIN**
+* **USER**
+
+Users can view resources and create reservations, while administrators have complete management access.
+
+---
+
+## 🚀 Features
+
+### Authentication & Security
+
+* JWT-based authentication
+* Secure login using `/auth/login`
+* BCrypt password hashing
+* Stateless authentication
+* JWT token validation
+* Role-Based Access Control (RBAC)
+* Protected REST endpoints
+* Unauthorized data access prevention
+
+### User Features
+
+* Login using username and password
+* View available resources
+* Create reservations
+* View only their own reservations
+* View individual reservations
+* Delete their own reservations
+
+### Admin Features
+
+* Full CRUD operations on resources
+* View all reservations
+* Create reservations for users
+* Update reservations
+* Delete reservations
+* Manage reservation status
+
+### Reservation Features
+
+* Reservation statuses:
+
+  * `PENDING`
+  * `CONFIRMED`
+  * `CANCELLED`
+* Reservation price stored using `BigDecimal`
+* Resource booking conflict detection
+* Start/end time validation
+* Reservation ownership validation
+
+### Search & Pagination
+
+Reservations can be filtered using:
+
+* Status
+* Minimum price
+* Maximum price
+
+The API also supports:
+
+* Pagination using `page` and `size`
+* Optional sorting
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology      | Purpose                        |
+| --------------- | ------------------------------ |
+| Java 17         | Programming Language           |
+| Spring Boot     | Backend Framework              |
+| Spring Web      | REST APIs                      |
+| Spring Security | Authentication & Authorization |
+| JWT             | Token-based Authentication     |
+| BCrypt          | Password Encryption            |
+| Spring Data JPA | Database Access                |
+| Hibernate       | ORM                            |
+| MySQL           | Database                       |
+| Maven           | Build Tool                     |
+| Swagger/OpenAPI | API Documentation              |
+| JUnit 5         | Testing                        |
+
+---
+
+## 📂 Project Structure
+
+```text
+src
+└── main
+    ├── java
+    │   └── com.rutuja.booking
+    │       ├── config
+    │       │   └── DataInitializer.java
+    │       │
+    │       ├── controller
+    │       │   ├── AuthController.java
+    │       │   ├── ResourceController.java
+    │       │   └── ReservationController.java
+    │       │
+    │       ├── dto
+    │       │   ├── LoginRequest.java
+    │       │   ├── LoginResponse.java
+    │       │   ├── ResourceRequest.java
+    │       │   ├── ResourceResponse.java
+    │       │   ├── ReservationRequest.java
+    │       │   ├── ReservationAdminRequest.java
+    │       │   └── ReservationResponse.java
+    │       │
+    │       ├── entity
+    │       │   ├── User.java
+    │       │   ├── Resource.java
+    │       │   ├── Reservation.java
+    │       │   ├── Role.java
+    │       │   └── ReservationStatus.java
+    │       │
+    │       ├── exception
+    │       │   ├── BadRequestException.java
+    │       │   ├── ResourceNotFoundException.java
+    │       │   ├── UnauthorizedException.java
+    │       │   └── GlobalExceptionHandler.java
+    │       │
+    │       ├── repository
+    │       │   ├── UserRepository.java
+    │       │   ├── ResourceRepository.java
+    │       │   └── ReservationRepository.java
+    │       │
+    │       ├── security
+    │       │   ├── JwtService.java
+    │       │   ├── JwtAuthenticationFilter.java
+    │       │   ├── CustomUserDetailsService.java
+    │       │   └── SecurityConfig.java
+    │       │
+    │       └── service
+    │           ├── AuthService.java
+    │           ├── ResourceService.java
+    │           └── ReservationService.java
+    │
+    └── resources
+        └── application.properties
+
+src
+└── test
+    └── java
+        └── com.rutuja.booking
+            └── ResourceBookingApplicationTests.java
+
+pom.xml
+README.md
+database.sql
+.gitignore
+```
+
+---
+
+# 🗄️ Database Design
 
 The application uses three main entities.
 
-User
+### User
 
-Stores application users and their roles.
-
+```text
 User
 ----------------
 id
@@ -78,10 +185,11 @@ username
 email
 password
 role
-Resource
+```
 
-Represents a bookable item.
+### Resource
 
+```text
 Resource
 ----------------
 id
@@ -90,10 +198,11 @@ description
 type
 available
 price
-Reservation
+```
 
-Stores booking information.
+### Reservation
 
+```text
 Reservation
 ----------------
 id
@@ -104,414 +213,740 @@ end_time
 price
 status
 created_at
-Relationships
-User 1 -------- * Reservation
+```
 
-Resource 1 ---- * Reservation
-Authentication
+### Entity Relationships
 
-The application uses JWT-based authentication.
+```text
+User
+  |
+  | 1
+  |
+  | *
+Reservation
+  |
+  | *
+  |
+  | 1
+Resource
+```
 
-Login Endpoint
+One user can have multiple reservations, and one resource can have multiple reservations.
+
+---
+
+# 🔐 Authentication
+
+Authentication is implemented using **JWT (JSON Web Token)**.
+
+## Login
+
+### Endpoint
+
+```http
 POST /auth/login
-Request
+```
+
+### Request
+
+```json
 {
   "username": "user",
   "password": "user123"
 }
-Response
+```
+
+### Response
+
+```json
 {
   "token": "JWT_TOKEN",
   "username": "user",
   "role": "USER"
 }
+```
 
-The JWT token must be sent with protected API requests:
+After login, use the returned JWT token for protected endpoints.
 
+```text
 Authorization: Bearer JWT_TOKEN
-Seed Users
+```
 
-The application automatically creates two users during startup.
+---
 
-Username	Password	Role
-admin	admin123	ADMIN
-user	user123	USER
+# 👤 Seed Users
 
-Passwords are stored using BCrypt hashing.
+The application automatically creates test users when it starts.
 
-These credentials are intended for local testing.
+| Username | Password | Role  |
+| -------- | -------- | ----- |
+| admin    | admin123 | ADMIN |
+| user     | user123  | USER  |
 
-Authorization
-USER
+Passwords are stored in the database using **BCrypt hashing**.
 
-A USER can:
+> These credentials are intended for local testing only. Change them for any real deployment.
 
-Login
-View resources
-View individual resources
-Create reservations
-View their own reservations
-Delete their own reservations
+---
 
-A USER cannot:
+# 🔑 Role-Based Authorization
 
-Create resources
-Update resources
-Delete resources
-Access another user's reservations
-Update reservations
-ADMIN
+## USER permissions
 
-An ADMIN can:
+| Operation                       | Permission |
+| ------------------------------- | ---------- |
+| Login                           | ✅          |
+| View resources                  | ✅          |
+| Create resource                 | ❌          |
+| Update resource                 | ❌          |
+| Delete resource                 | ❌          |
+| Create reservation              | ✅          |
+| View own reservations           | ✅          |
+| View another user's reservation | ❌          |
+| Update reservation              | ❌          |
+| Delete own reservation          | ✅          |
 
-View resources
-Create resources
-Update resources
-Delete resources
-View all reservations
-Create reservations
-Update reservations
-Delete reservations
-Resource APIs
-Method	Endpoint	Access
-POST	/auth/login	Public
-GET	/resources	USER, ADMIN
-GET	/resources/{id}	USER, ADMIN
-POST	/resources	ADMIN
-PUT	/resources/{id}	ADMIN
-DELETE	/resources/{id}	ADMIN
-Create Resource
+## ADMIN permissions
+
+| Operation             | Permission |
+| --------------------- | ---------- |
+| Login                 | ✅          |
+| View resources        | ✅          |
+| Create resource       | ✅          |
+| Update resource       | ✅          |
+| Delete resource       | ✅          |
+| Create reservation    | ✅          |
+| View all reservations | ✅          |
+| Update reservation    | ✅          |
+| Delete reservation    | ✅          |
+
+---
+
+# 📡 REST API Endpoints
+
+## Authentication
+
+### Login
+
+```http
+POST /auth/login
+```
+
+---
+
+## Resources
+
+### Get all resources
+
+```http
+GET /resources
+```
+
+Access:
+
+```text
+USER, ADMIN
+```
+
+### Get resource by ID
+
+```http
+GET /resources/{id}
+```
+
+Access:
+
+```text
+USER, ADMIN
+```
+
+### Create resource
+
+```http
 POST /resources
+```
 
-Example request:
+Access:
 
+```text
+ADMIN
+```
+
+Example:
+
+```json
 {
   "name": "Conference Room B",
-  "description": "Room for team meetings",
+  "description": "Meeting room for team discussions",
   "type": "ROOM",
   "available": true,
   "price": 750.00
 }
-Reservation APIs
-Method	Endpoint	Access
-POST	/reservations	USER, ADMIN
-GET	/reservations	USER, ADMIN
-GET	/reservations/{id}	USER, ADMIN
-PUT	/reservations/{id}	ADMIN
-DELETE	/reservations/{id}	USER (own), ADMIN
-Create Reservation
+```
+
+### Update resource
+
+```http
+PUT /resources/{id}
+```
+
+Access:
+
+```text
+ADMIN
+```
+
+### Delete resource
+
+```http
+DELETE /resources/{id}
+```
+
+Access:
+
+```text
+ADMIN
+```
+
+---
+
+# 📅 Reservation APIs
+
+### Create reservation
+
+```http
 POST /reservations
+```
+
+Access:
+
+```text
+USER, ADMIN
+```
 
 Example:
 
+```json
 {
   "resourceId": 1,
   "startTime": "2026-09-10T10:00:00",
   "endTime": "2026-09-10T12:00:00"
 }
-Reservation Ownership
+```
 
-The reservation request does not contain a userId.
+### Important Security Feature
 
-The authenticated user's identity is obtained from the JWT/Spring Security authentication context.
+The request does **not** contain `userId`.
 
-This prevents a USER from creating or accessing reservations belonging to another user by simply changing a userId in the request.
+The logged-in user's identity is obtained from the JWT authentication context.
 
-Reservation Status
+This prevents a user from creating a reservation on behalf of another user by modifying the request.
 
-Reservations support the following statuses:
+---
 
+### Get reservations
+
+```http
+GET /reservations
+```
+
+For a USER, only their own reservations are returned.
+
+For an ADMIN, all reservations are returned.
+
+---
+
+### Get reservation by ID
+
+```http
+GET /reservations/{id}
+```
+
+A USER can access only their own reservation.
+
+An ADMIN can access any reservation.
+
+---
+
+### Update reservation
+
+```http
+PUT /reservations/{id}
+```
+
+Access:
+
+```text
+ADMIN
+```
+
+Example:
+
+```json
+{
+  "resourceId": 1,
+  "userId": 2,
+  "startTime": "2026-09-10T10:00:00",
+  "endTime": "2026-09-10T12:00:00",
+  "status": "CONFIRMED"
+}
+```
+
+---
+
+### Delete reservation
+
+```http
+DELETE /reservations/{id}
+```
+
+A USER can delete only their own reservation.
+
+An ADMIN can delete any reservation.
+
+---
+
+# 🔎 Reservation Filtering
+
+Reservations support filtering by status and price.
+
+## Filter by status
+
+```http
+GET /reservations?status=CONFIRMED
+```
+
+Available statuses:
+
+```text
 PENDING
 CONFIRMED
 CANCELLED
-Filtering
+```
 
-Reservations can be filtered by status and price.
+## Filter by minimum price
 
-Status
-GET /reservations?status=CONFIRMED
-Minimum Price
+```http
 GET /reservations?minPrice=500
-Maximum Price
+```
+
+## Filter by maximum price
+
+```http
 GET /reservations?maxPrice=2000
-Price Range
+```
+
+## Filter by price range
+
+```http
 GET /reservations?minPrice=500&maxPrice=2000
-Pagination
+```
 
-Pagination is supported using page and size.
+---
+
+# 📄 Pagination
+
+Pagination is supported using `page` and `size`.
 
 Example:
 
+```http
 GET /reservations?page=0&size=10
-Sorting
+```
 
-Reservation results can optionally be sorted.
+Where:
+
+```text
+page = page number
+size = number of records per page
+```
+
+---
+
+# ↕️ Sorting
+
+Reservations can optionally be sorted.
 
 Example:
 
+```http
 GET /reservations?sort=price,desc
+```
 
 Ascending:
 
+```http
 GET /reservations?sort=price,asc
+```
 
-Supported sorting fields:
+Other supported fields include:
 
+```text
 price
 startTime
 endTime
 createdAt
 status
-Combined Filtering, Pagination and Sorting
+```
+
+---
+
+# 🔎 Combined Search
+
+Filtering, pagination and sorting can be used together.
 
 Example:
 
+```http
 GET /reservations?status=CONFIRMED&minPrice=500&maxPrice=2000&page=0&size=10&sort=price,desc
-Validation
+```
 
-The application validates:
+---
 
-Required request fields
-Resource IDs
-User IDs
-Non-negative prices
-Reservation start and end times
-Reservation status
-Pagination values
-Sorting fields
+# ✅ Validation
 
-The reservation start time must be before the end time.
+The application validates incoming requests.
 
-Booking Conflict Detection
+Examples:
 
-The system checks whether a resource is already booked during the requested time period.
+* Required fields cannot be empty.
+* Resource price cannot be negative.
+* Reservation start time must be before end time.
+* Resource ID must exist.
+* User ID must exist for administrator reservation management.
+* Invalid reservation status is rejected.
+* Invalid pagination values are rejected.
+* Invalid sorting fields are rejected.
 
-For example, if a resource is booked from:
+---
 
-10:00 - 12:00
+# ⚠️ Error Handling
 
-another reservation overlapping this period will be rejected.
-
-Error Handling
-
-Global exception handling is implemented using GlobalExceptionHandler.
+The application provides centralized exception handling using `GlobalExceptionHandler`.
 
 Common HTTP status codes:
 
-Status	Description
-200	Successful request
-201	Resource created
-204	Successfully deleted
-400	Invalid request
-401	Authentication required
-403	Access denied
-404	Resource not found
-409	Booking conflict
+| Status | Meaning                        |
+| ------ | ------------------------------ |
+| 200    | Request successful             |
+| 201    | Resource created               |
+| 204    | Resource deleted               |
+| 400    | Bad request / validation error |
+| 401    | Authentication required        |
+| 403    | Access denied                  |
+| 404    | Resource not found             |
+| 409    | Booking conflict               |
 
-Example error response:
+Example error:
 
+```json
 {
   "timestamp": "2026-09-01T10:30:00",
   "status": 400,
   "message": "Start time must be before end time"
 }
-Database Configuration
+```
+
+---
+
+# 🗓️ Booking Conflict Detection
+
+The system checks whether a resource is already reserved for the requested time.
+
+For example, if:
+
+```text
+Conference Room A
+10:00 AM - 12:00 PM
+```
+
+is already booked, another reservation overlapping that period is rejected.
+
+Example:
+
+```text
+11:00 AM - 1:00 PM
+```
+
+will be rejected because it overlaps with the existing reservation.
+
+---
+
+# 💰 Reservation Price
+
+Reservation prices are stored using Java's:
+
+```java
+BigDecimal
+```
+
+The database column uses decimal precision:
+
+```text
+DECIMAL(10,2)
+```
+
+This is preferable to using floating-point types for monetary values.
+
+---
+
+# 🗃️ Database Configuration
 
 Create the MySQL database:
 
+```sql
 CREATE DATABASE resource_booking;
+```
 
 The application uses environment variables for database configuration.
 
+```text
 DB_URL
 DB_USERNAME
 DB_PASSWORD
 JWT_SECRET
 JWT_EXPIRATION
 SERVER_PORT
+```
 
 Example:
 
+```text
 DB_URL=jdbc:mysql://localhost:3306/resource_booking
 DB_USERNAME=root
-DB_PASSWORD=your_mysql_password
+DB_PASSWORD=your_password
 JWT_SECRET=your-long-random-secret
 JWT_EXPIRATION=86400000
 SERVER_PORT=8080
+```
 
-Do not commit real database passwords or JWT secrets to GitHub.
+Do not commit real passwords or JWT secrets to GitHub.
 
-How to Run the Project
-Prerequisites
+---
 
-Install the following:
+# ▶️ How to Run
 
-Java 17 or higher
-Maven
-MySQL
-Git
+## Prerequisites
+
+Install:
+
+* Java 17 or higher
+* Maven
+* MySQL
+* Git
 
 Check Java:
 
+```bash
 java -version
+```
 
 Check Maven:
 
+```bash
 mvn -version
-1. Clone the Repository
+```
+
+---
+
+## Step 1: Clone the repository
+
+```bash
 git clone <your-github-repository-url>
+```
 
-Navigate to the project:
+Move into the project:
 
-cd backend-developer-as-final-73527-rutuja
-2. Create the Database
+```bash
+cd resource-booking-system
+```
 
-Open MySQL and run:
+---
 
+## Step 2: Create database
+
+Open MySQL and execute:
+
+```sql
 CREATE DATABASE resource_booking;
-3. Configure Database Credentials
+```
 
-Set the required environment variables:
+---
 
+## Step 3: Configure database
+
+Set your environment variables or update the local database configuration.
+
+Example:
+
+```text
 DB_USERNAME=root
 DB_PASSWORD=your_mysql_password
-4. Build the Project
+```
+
+---
+
+## Step 4: Build the project
+
+```bash
 mvn clean install
-5. Start the Application
+```
+
+---
+
+## Step 5: Run the application
+
+```bash
 mvn spring-boot:run
+```
 
-The application runs on:
+The application will start on:
 
+```text
 http://localhost:8080
-Swagger / OpenAPI Documentation
+```
 
-Swagger UI:
+---
 
+# 📖 Swagger / OpenAPI
+
+Swagger UI is available at:
+
+```text
 http://localhost:8080/swagger-ui.html
+```
 
 OpenAPI documentation:
 
+```text
 http://localhost:8080/v3/api-docs
+```
 
-Swagger can be used to test the REST APIs.
+Swagger can be used to:
 
-To test protected APIs:
+1. Login
+2. Copy the JWT token
+3. Click **Authorize**
+4. Enter:
 
-Login using /auth/login
-Copy the JWT token
-Click Authorize in Swagger
-Enter:
+```text
 Bearer YOUR_JWT_TOKEN
-Execute the protected API requests.
-Postman
+```
 
-A Postman collection is included in the project:
+5. Test protected APIs.
 
+---
+
+# 📬 Postman
+
+A Postman collection is included in:
+
+```text
 postman/Resource-Booking-System.postman_collection.json
+```
 
-Import this file into Postman to test the APIs.
+Import the collection into Postman and configure:
 
-Testing
+```text
+baseUrl = http://localhost:8080
+```
 
-Run the test suite using:
+After login, use the JWT token for protected APIs.
 
+---
+
+# 🧪 Testing
+
+Run the tests using:
+
+```bash
 mvn test
+```
 
-The project contains Spring Boot test configuration.
+The project includes Spring Boot test configuration and can be extended with additional tests for:
 
-Important scenarios to test include:
+* Authentication
+* JWT validation
+* ADMIN authorization
+* USER authorization
+* Reservation ownership
+* Resource CRUD
+* Validation
+* Filtering
+* Pagination
+* Sorting
 
-Successful login
-Invalid login
-JWT authentication
-ADMIN authorization
-USER authorization
-Resource CRUD
-Reservation creation
-Reservation ownership
-Unauthorized reservation access
-Validation errors
-Reservation filtering
-Pagination
-Sorting
-Booking conflicts
-Security
+---
 
-The following security practices are implemented:
+# 🔒 Security Considerations
 
-JWT-based stateless authentication
-BCrypt password hashing
-Role-based authorization
-Protected REST endpoints
-Server-side reservation ownership validation
-JWT-based user identity
-Environment-based database configuration
-No real credentials committed to source control
-Assignment Requirements
+The application follows these security practices:
 
-The project covers the required assignment functionality:
+* Passwords are hashed using BCrypt.
+* Authentication uses JWT.
+* Sessions are stateless.
+* Protected endpoints require authentication.
+* ADMIN endpoints require the ADMIN role.
+* USER reservation ownership is checked on the server.
+* User identity is obtained from the authenticated JWT instead of request data.
+* Database credentials are configurable using environment variables.
+* JWT secrets should not be committed to source control.
 
-JWT login authentication
+---
 
-JWT token validation
+# 📋 Assignment Requirements Covered
 
-BCrypt password handling
+| Requirement              | Implementation |
+| ------------------------ | -------------- |
+| JWT Login                | ✅              |
+| JWT Token Validation     | ✅              |
+| BCrypt Password Handling | ✅              |
+| ADMIN Role               | ✅              |
+| USER Role                | ✅              |
+| RBAC                     | ✅              |
+| Resource CRUD            | ✅              |
+| Reservation CRUD         | ✅              |
+| USER Own Reservations    | ✅              |
+| ADMIN All Reservations   | ✅              |
+| JWT-based User Identity  | ✅              |
+| Reservation Status       | ✅              |
+| Decimal Price            | ✅              |
+| Status Filtering         | ✅              |
+| Minimum Price Filtering  | ✅              |
+| Maximum Price Filtering  | ✅              |
+| Pagination               | ✅              |
+| Sorting                  | ✅              |
+| Validation               | ✅              |
+| Error Handling           | ✅              |
+| MySQL + JPA/Hibernate    | ✅              |
+| Swagger/OpenAPI          | ✅              |
+| Seed Users               | ✅              |
+| README Documentation     | ✅              |
+| Testing                  | ✅              |
 
-ADMIN and USER roles
+---
 
-Role-Based Access Control
+# 🔮 Future Improvements
 
-ADMIN resource CRUD
+Possible future enhancements include:
 
-USER resource read access
+* Email notifications for reservations
+* Refresh tokens
+* User registration
+* Reservation cancellation endpoint
+* Advanced resource availability calendar
+* Docker support
+* Redis caching
+* More extensive integration tests
+* Deployment using AWS/Azure
+* CI/CD pipeline using GitHub Actions
 
-Reservation creation
+---
 
-Reservation ownership
+# 👩‍💻 Author
 
-ADMIN access to all reservations
+**Rutuja Salunkhe**
 
-USER access to own reservations
+Resource Booking System — Backend Developer Assignment
 
-Reservation statuses
-
-Decimal reservation price
-
-Status filtering
-
-Minimum price filtering
-
-Maximum price filtering
-
-Pagination
-
-Optional sorting
-
-Request validation
-
-Error handling
-
-MySQL integration
-
-JPA/Hibernate
-
-Swagger/OpenAPI
-
-Seed users
-
-Testing
-
-Future Improvements
-
-The application can be extended with:
-
-User registration
-Refresh tokens
-Email notifications
-Reservation cancellation workflow
-Resource availability calendar
-Docker support
-CI/CD pipeline
-Cloud deployment
-More comprehensive integration tests
-
+Built using Java, Spring Boot, Spring Security, JWT, JPA/Hibernate and MySQL.
